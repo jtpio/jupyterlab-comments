@@ -1,19 +1,21 @@
+# a mybinder.org-ready environment for demoing jupyterlab_comments
+# this environment may also be used locally on Linux/MacOS/Windows, e.g.
+#
+#   conda env update --file binder/environment.yml
+#   conda activate jupyterlab-comments-demo
+#
 name: jupyterlab-comments-demo
 
 channels:
-  - conda-forge/label/jupyterlab_rc
   - conda-forge
 
 dependencies:
-  # runtime
-  - python >=3.8,<3.9.0a0
-  - jupyterlab >=3.1.0rc1,<4.0.0a0
-  - numpy
-  - scipy
-  - matplotlib
-  # labextension build
-  - nodejs >=15,<16
+  # runtime dependencies
+  - python >=3.10,<3.11.0a0
+  - jupyterlab >=4.0.0,<5
+  # labextension build dependencies
+  - nodejs >=18,<19
   - pip
   - wheel
-  # extensions
-  - jupyterlab-link-share
+  # additional packages for demos
+  # - ipywidgets

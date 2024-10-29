@@ -1,0 +1,14 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.3.5
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: cameron.toy.00@gmail.com
+author_name: Cameron Toy, Srirag Vuppala, and Rahul Nair
+has_binder: true
+has_settings: false
+kind: frontend
+labextension_name: jupyterlab-comments
+project_short_description: Comment on files JupyterLab
+python_name: jupyterlab_comments
+repository: https://github.com/jupytercalpoly/jupyterlab-comments.git
+test: false
+
