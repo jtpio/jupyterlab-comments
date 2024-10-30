@@ -21,7 +21,7 @@ export class CellCommentWidgetFactory<
     target?: Cell
   ): CellCommentWidget | undefined {
     const cell = target ?? this._cellFromID(comment.target.cellID);
-    if (cell === null) {
+    if (!cell) {
       console.error('Cell not found for comment', comment);
       return;
     }
@@ -74,7 +74,7 @@ export class CellSelectionCommentWidgetFactory extends CommentWidgetFactory<
     target?: Cell
   ): CellSelectionCommentWidget | undefined {
     const cell = target ?? this._cellFromID(comment.target.cellID);
-    if (cell === null) {
+    if (!cell) {
       console.error('Cell not found for comment', comment);
       return;
     }

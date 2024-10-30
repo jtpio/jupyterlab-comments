@@ -1,5 +1,6 @@
-import { IComment } from '../api';
 import { CodeEditor } from '@jupyterlab/codeeditor';
+
+import { IComment } from '../api';
 
 export interface ICellComment extends IComment {
   type: 'cell';

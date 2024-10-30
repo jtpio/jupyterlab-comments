@@ -1,20 +1,32 @@
 import { ReactWidget, UseSignal } from '@jupyterlab/apputils';
-import * as React from 'react';
-import { ellipsesIcon } from '@jupyterlab/ui-components';
-import { IComment, IIdentity, IReply } from './commentformat';
-import { getIdentity, renderCommentTimeString } from './utils';
-import { Menu, Panel } from '@lumino/widgets';
-import { ISignal, Signal } from '@lumino/signaling';
-import { CommentFileModel } from './model';
+
 import { Context } from '@jupyterlab/docregistry';
-import { Message } from '@lumino/messaging';
+
 import {
   IRenderMime,
   IRenderMimeRegistry,
   renderMarkdown
 } from '@jupyterlab/rendermime';
+
+import { ellipsesIcon } from '@jupyterlab/ui-components';
+
+import { Message } from '@lumino/messaging';
+
+import { ISignal, Signal } from '@lumino/signaling';
+
+import { Menu, Panel } from '@lumino/widgets';
+
 import { PartialJSONValue } from '@lumino/coreutils';
+
+import * as React from 'react';
+
+import { IComment, IIdentity, IReply } from './commentformat';
+
 import { UserIcons } from './icons';
+
+import { CommentFileModel } from './model';
+
+import { getIdentity, renderCommentTimeString } from './utils';
 
 /**
  * This type comes from @jupyterlab/apputils/vdom.ts but isn't exported.
@@ -570,7 +582,7 @@ export class CommentWidget<T, C extends IComment = IComment>
    */
   private _scrollToTarget(): void {
     const element = this.element;
-    if (element !== null) {
+    if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   }
@@ -585,7 +597,7 @@ export class CommentWidget<T, C extends IComment = IComment>
     const target = event.target as HTMLElement;
     const clickID = Private.getClickID(target);
 
-    if (clickID !== null) {
+    if (clickID) {
       this.activeID = clickID;
     }
 
@@ -675,7 +687,7 @@ export class CommentWidget<T, C extends IComment = IComment>
   protected _handleDropdownClick(event: React.MouseEvent): void {
     this._setClickFocus(event);
     const menu = this.menu;
-    if (menu !== null && !this.isMock) {
+    if (menu && !this.isMock) {
       menu.open(event.pageX, event.pageY);
     }
   }
@@ -1185,13 +1197,13 @@ export class CommentFileWidget extends Panel {
 
   insertComment(comment: IComment, index: number): void {
     const factory = this.model.commentWidgetRegistry.getFactory(comment.type);
-    if (factory === null) {
+    if (!factory) {
       return;
     }
 
     const widget = factory.createWidget(comment, this.model);
 
-    if (widget !== null) {
+    if (widget) {
       this.insertWidget(index, widget);
       this._commentAdded.emit(widget);
     }

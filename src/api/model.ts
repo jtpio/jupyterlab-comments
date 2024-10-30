@@ -1,18 +1,32 @@
-import { IComment, IIdentity, IReply } from './commentformat';
-import { CommentFactory } from './factory';
-import { ICommentRegistry, ICommentWidgetRegistry } from './token';
 import { ISharedDocument, YFile } from '@jupyter/ydoc';
-import * as Y from 'yjs';
-import { PartialJSONValue } from '@lumino/coreutils';
-import { ISignal, Signal } from '@lumino/signaling';
-import { Awareness } from 'y-protocols/awareness';
-import { Menu } from '@lumino/widgets';
-import { DocumentRegistry } from '@jupyterlab/docregistry';
-import { IModelDB, ModelDB } from '@jupyterlab/observables';
+
 import { IChangedArgs } from '@jupyterlab/coreutils';
+
+import { DocumentRegistry } from '@jupyterlab/docregistry';
+
+import { IModelDB, ModelDB } from '@jupyterlab/observables';
+
 import { Contents } from '@jupyterlab/services';
-import { CommentWidget } from './widget';
+
+import { PartialJSONValue } from '@lumino/coreutils';
+
+import { ISignal, Signal } from '@lumino/signaling';
+
+import { Menu } from '@lumino/widgets';
+
+import * as Y from 'yjs';
+
+import { Awareness } from 'y-protocols/awareness';
+
+import { IComment, IIdentity, IReply } from './commentformat';
+
+import { CommentFactory } from './factory';
+
+import { ICommentRegistry, ICommentWidgetRegistry } from './token';
+
 import { getCommentTimeStamp } from './utils';
+
+import { CommentWidget } from './widget';
 
 /**
  * The default model for comment files.

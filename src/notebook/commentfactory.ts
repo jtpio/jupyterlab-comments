@@ -1,6 +1,8 @@
-import { CommentFactory } from '../api';
-import { ICellComment, ICellSelectionComment } from './commentformat';
 import { Cell } from '@jupyterlab/cells';
+
+import { ICellComment, ICellSelectionComment } from './commentformat';
+
+import { CommentFactory } from '../api';
 
 export class CellCommentFactory extends CommentFactory<ICellComment> {
   createComment(options: CommentFactory.ICommentOptions<Cell>): ICellComment {

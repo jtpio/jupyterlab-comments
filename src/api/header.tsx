@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { ILabShell } from '@jupyterlab/application';
 
 import { ReactWidget, UseSignal } from '@jupyterlab/apputils';
@@ -10,15 +8,17 @@ import { editIcon, refreshIcon, saveIcon } from '@jupyterlab/ui-components';
 
 import { ISignal, Signal } from '@lumino/signaling';
 
-import { getIdentity, setIdentityName } from './utils';
+import * as React from 'react';
 
 import { Awareness } from 'y-protocols/awareness';
 
+import { CommentFileModel } from './model';
+
 import { CommentPanel } from './panel';
 
-import { CommentFileWidget } from './widget';
+import { getIdentity, setIdentityName } from './utils';
 
-import { CommentFileModel } from './model';
+import { CommentFileWidget } from './widget';
 
 /**
  * This type comes from @jupyterlab/apputils/vdom.ts but isn't exported.

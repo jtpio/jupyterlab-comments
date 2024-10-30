@@ -2,22 +2,33 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
+
 import { IThemeManager } from '@jupyterlab/apputils';
-import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
-import { YNotebook } from '@jupyter/ydoc';
-import { Awareness } from 'y-protocols/awareness';
+
 import { Cell } from '@jupyterlab/cells';
+
+import { CodeEditor } from '@jupyterlab/codeeditor';
+
+import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
+
+import { YNotebook } from '@jupyter/ydoc';
+
+import { Awareness } from 'y-protocols/awareness';
+
 import { getIdentity, ICommentPanel } from '../api';
+
 import {
   CellCommentFactory,
   CellSelectionCommentFactory
 } from './commentfactory';
+
+import { ICellComment } from './commentformat';
+
 import {
   CellCommentWidgetFactory,
   CellSelectionCommentWidgetFactory
 } from './widgetfactory';
-import { ICellComment } from './commentformat';
-import { CodeEditor } from '@jupyterlab/codeeditor';
+
 
 export namespace CommandIDs {
   export const addNotebookComment = 'jl-comments:add-notebook-comment';

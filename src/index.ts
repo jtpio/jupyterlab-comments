@@ -4,9 +4,9 @@ import {
   jupyterCommentingPlugin
 } from './api';
 // Importing directly from './text' causes the imported plugin to be undefined (??)
-import { textCommentingPlugin } from './text/plugin';
-import { notebookCommentsPlugin } from './notebook';
 import { JupyterFrontEndPlugin } from '@jupyterlab/application';
+import { notebookCommentsPlugin } from './notebook';
+import { textCommentingPlugin } from './text/plugin';
 
 export * from './api';
 export * from './notebook';

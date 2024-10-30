@@ -1,9 +1,9 @@
+import { IThemeManager } from '@jupyterlab/apputils';
 import { CodeEditorWrapper } from '@jupyterlab/codeeditor';
 import { CodeMirrorEditor } from '@jupyterlab/codemirror';
-import { ITextSelectionComment } from './commentformat';
-import { IThemeManager } from '@jupyterlab/apputils';
-import { toCodeMirrorPosition, truncate } from '../api';
 import * as CodeMirror from 'codemirror';
+import { toCodeMirrorPosition, truncate } from '../api';
+import { ITextSelectionComment } from './commentformat';
 
 export function docFromWrapper(wrapper: CodeEditorWrapper): CodeMirror.Doc {
   return (wrapper.editor as CodeMirrorEditor).doc;

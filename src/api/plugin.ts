@@ -5,19 +5,23 @@ import {
 } from '@jupyterlab/application';
 
 import { WidgetTracker } from '@jupyterlab/apputils';
-import { CommentPanel } from './panel';
-import { CommentWidget } from './widget';
+
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
-import { CommentRegistry, CommentWidgetRegistry } from './registry';
+
 import { IDocumentManager } from '@jupyterlab/docmanager';
+
 import { DocumentRegistry, DocumentWidget } from '@jupyterlab/docregistry';
+
 import { Menu } from '@lumino/widgets';
 import { CommentFileModelFactory } from './model';
+import { CommentPanel } from './panel';
+import { CommentRegistry, CommentWidgetRegistry } from './registry';
 import {
   ICommentPanel,
   ICommentRegistry,
   ICommentWidgetRegistry
 } from './token';
+import { CommentWidget } from './widget';
 
 namespace CommandIDs {
   export const addComment = 'jl-comments:add-comment';
@@ -158,7 +162,7 @@ export const jupyterCommentingPlugin: JupyterFrontEndPlugin<ICommentPanel> = {
 
     // Update comment widget tracker when model changes
     panel.modelChanged.connect((_, fileWidget) => {
-      if (fileWidget !== null) {
+      if (fileWidget) {
         fileWidget.widgets.forEach(
           widget => void commentTracker.add(widget as CommentWidget<any>)
         );
@@ -208,7 +212,7 @@ function addCommands(
     label: 'Save Comments',
     execute: () => {
       const fileWidget = panel.fileWidget;
-      if (fileWidget === null) {
+      if (!fileWidget) {
         return;
       }
 

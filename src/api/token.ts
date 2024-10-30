@@ -1,13 +1,22 @@
-import { Token } from '@lumino/coreutils';
-import { CommentFactory, CommentWidgetFactory } from './factory';
-import { Menu, Panel } from '@lumino/widgets';
-import { ISignal } from '@lumino/signaling';
-import { CommentFileWidget, CommentWidget } from './widget';
-import { Awareness } from 'y-protocols/awareness';
-import { CommentFileModel } from './model';
-import { NewCommentButton } from './button';
-import { IIdentity } from './commentformat';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
+
+import { Token } from '@lumino/coreutils';
+
+import { ISignal } from '@lumino/signaling';
+
+import { Menu, Panel } from '@lumino/widgets';
+
+import { Awareness } from 'y-protocols/awareness';
+
+import { NewCommentButton } from './button';
+
+import { IIdentity } from './commentformat';
+
+import { CommentFileModel } from './model';
+
+import { CommentFactory, CommentWidgetFactory } from './factory';
+
+import { CommentFileWidget, CommentWidget } from './widget';
 
 export interface ICommentRegistry {
   getFactory: (id: string) => CommentFactory | undefined;

@@ -1,14 +1,14 @@
-import { CodeEditorWrapper } from '@jupyterlab/codeeditor';
 import { IThemeManager } from '@jupyterlab/apputils';
-import { ITextSelectionComment } from './commentformat';
+import { CodeEditorWrapper } from '@jupyterlab/codeeditor';
+import { PartialJSONValue } from '@lumino/coreutils';
+import * as CodeMirror from 'codemirror';
 import {
   CommentWidget,
   toCodeEditorPosition,
   toCodeMirrorPosition,
   truncate
 } from '../api';
-import * as CodeMirror from 'codemirror';
-import { PartialJSONValue } from '@lumino/coreutils';
+import { ITextSelectionComment } from './commentformat';
 import { docFromWrapper, markTextSelection } from './utils';
 
 export class TextSelectionCommentWidget extends CommentWidget<

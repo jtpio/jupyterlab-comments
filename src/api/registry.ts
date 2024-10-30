@@ -1,4 +1,5 @@
 import { CommentFactory, CommentWidgetFactory } from './factory';
+
 import { ICommentRegistry, ICommentWidgetRegistry } from './token';
 
 /**

@@ -1,19 +1,18 @@
+import { YFile } from '@jupyter/ydoc';
 import {
   ILabShell,
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-import { getIdentity, ICommentPanel } from '../api';
-import { WidgetTracker } from '@jupyterlab/apputils';
+import { IThemeManager, WidgetTracker } from '@jupyterlab/apputils';
 import { CodeEditorWrapper } from '@jupyterlab/codeeditor';
-import { TextSelectionCommentFactory } from './commentfactory';
-import { TextSelectionCommentWidgetFactory } from './widgetfactory';
 import { DocumentWidget } from '@jupyterlab/docregistry';
-import { ITextSelectionComment } from './commentformat';
-import { Awareness } from 'y-protocols/awareness';
-import { YFile } from '@jupyter/ydoc';
 import { Widget } from '@lumino/widgets';
-import { IThemeManager } from '@jupyterlab/apputils';
+import { Awareness } from 'y-protocols/awareness';
+import { getIdentity, ICommentPanel } from '../api';
+import { TextSelectionCommentFactory } from './commentfactory';
+import { ITextSelectionComment } from './commentformat';
+import { TextSelectionCommentWidgetFactory } from './widgetfactory';
 
 namespace CommandIDs {
   export const addComment = 'jupyter-comments:add-text-comment';

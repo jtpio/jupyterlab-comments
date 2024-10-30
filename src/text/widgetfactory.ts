@@ -1,10 +1,9 @@
-import { CommentFileModel, CommentWidgetFactory } from '../api';
+import { IThemeManager, WidgetTracker } from '@jupyterlab/apputils';
 import { CodeEditorWrapper } from '@jupyterlab/codeeditor';
-import { IThemeManager } from '@jupyterlab/apputils';
+import { CommentFileModel, CommentWidgetFactory } from '../api';
 import { ITextSelectionComment } from './commentformat';
-import { TextSelectionCommentWidget } from './widget';
 import { docFromWrapper, markTextSelection } from './utils';
-import { WidgetTracker } from '@jupyterlab/apputils';
+import { TextSelectionCommentWidget } from './widget';
 
 export class TextSelectionCommentWidgetFactory extends CommentWidgetFactory<
   CodeEditorWrapper,

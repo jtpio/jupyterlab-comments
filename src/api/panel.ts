@@ -1,27 +1,46 @@
-import { Menu, Panel, Widget } from '@lumino/widgets';
-import { UUID } from '@lumino/coreutils';
-import { Message } from '@lumino/messaging';
-import { CommentFileWidget, CommentWidget } from './widget';
 import { YDocument } from '@jupyter/ydoc';
+
+import { ILabShell } from '@jupyterlab/application';
+
+import { IDocumentManager } from '@jupyterlab/docmanager';
+
+import { Context, DocumentRegistry } from '@jupyterlab/docregistry';
+
+import { Menu, Panel, Widget } from '@lumino/widgets';
+
+import { UUID } from '@lumino/coreutils';
+
+import { Message } from '@lumino/messaging';
+
 import { ISignal, Signal } from '@lumino/signaling';
+
 import { CommandRegistry } from '@lumino/commands';
+
 import { Awareness } from 'y-protocols/awareness';
+
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
+
+import { Contents } from '@jupyterlab/services';
+
+import { NewCommentButton } from './button';
+
+import { IIdentity } from './commentformat';
+
+import { PanelHeader } from './header';
+
+import { CommentsPanelIcon } from './icons';
+
+import { CommentFileModel } from './model';
+
 import {
   ICommentPanel,
   ICommentRegistry,
   ICommentWidgetRegistry
 } from './token';
-import { ILabShell } from '@jupyterlab/application';
-import { PanelHeader } from './header';
-import { IDocumentManager } from '@jupyterlab/docmanager';
-import { Context, DocumentRegistry } from '@jupyterlab/docregistry';
+
 import { hashString, randomIdentity } from './utils';
-import { CommentFileModel } from './model';
-import { CommentsPanelIcon } from './icons';
-import { NewCommentButton } from './button';
-import { IIdentity } from './commentformat';
-import { Contents } from '@jupyterlab/services';
+
+import { CommentFileWidget, CommentWidget } from './widget';
 
 export class CommentPanel extends Panel implements ICommentPanel {
   renderer: IRenderMimeRegistry;

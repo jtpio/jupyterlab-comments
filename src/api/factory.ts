@@ -1,9 +1,15 @@
-import { IComment, IIdentity, IReply } from './commentformat';
 import { UUID } from '@lumino/coreutils';
-import { getCommentTimeStamp } from './utils';
+
+import { IComment, IIdentity, IReply } from './commentformat';
+
 import { CommentFileModel } from './model';
-import { CommentWidget } from './widget';
+
 import { ICommentRegistry } from './token';
+
+import { getCommentTimeStamp } from './utils';
+
+import { CommentWidget } from './widget';
+
 
 export abstract class CommentWidgetFactory<T, C extends IComment = IComment> {
   constructor(options: CommentWidgetFactory.IOptions) {

@@ -1,7 +1,10 @@
-import { BlueCreateCommentIcon } from './icons';
-import { Widget } from '@lumino/widgets';
 import { Message } from '@lumino/messaging';
+
 import { ISignal, Signal } from '@lumino/signaling';
+
+import { Widget } from '@lumino/widgets';
+
+import { BlueCreateCommentIcon } from './icons';
 
 export class NewCommentButton extends Widget {
   constructor() {
@@ -52,7 +55,7 @@ export class NewCommentButton extends Widget {
     let ax = 0;
     let ay = 0;
 
-    if (anchor !== null) {
+    if (anchor) {
       const { left, top } = anchor.getBoundingClientRect();
       ax = anchor.scrollLeft - left;
       ay = anchor.scrollTop - top;

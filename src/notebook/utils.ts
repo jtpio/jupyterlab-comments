@@ -6,7 +6,7 @@ import { ICellSelectionComment } from './commentformat';
 import { toCodeMirrorPosition, truncate } from '../api';
 
 export function docFromCell(cell: Cell): CodeMirror.Doc {
-  return (cell.editorWidget.editor as CodeMirrorEditor).doc;
+  return (cell.editorWidget!.editor as CodeMirrorEditor).doc;
 }
 
 export function markCommentSelection(
