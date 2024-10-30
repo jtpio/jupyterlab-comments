@@ -2,7 +2,7 @@ import { Menu, Panel, Widget } from '@lumino/widgets';
 import { UUID } from '@lumino/coreutils';
 import { Message } from '@lumino/messaging';
 import { CommentFileWidget, CommentWidget } from './widget';
-import { YDocument } from '@jupyterlab/shared-models';
+import { YDocument } from '@jupyter/ydoc';
 import { ISignal, Signal } from '@lumino/signaling';
 import { CommandRegistry } from '@lumino/commands';
 import { Awareness } from 'y-protocols/awareness';
@@ -66,6 +66,9 @@ export class CommentPanel extends Panel implements ICommentPanel {
     change: Contents.IChangedArgs
   ): Promise<void> {
     const sourcePath = change?.oldValue?.path;
+    if (!sourcePath) {
+      return;
+    }
     const commentsPath =
       sourcePath !== null ? this.getCommentPathFor(sourcePath) : undefined;
 
@@ -115,7 +118,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
     }
   }
 
-  pathExists(path: string): Promise<boolean> {
+  async pathExists(path: string): Promise<boolean> {
     const contents = this._docManager.services.contents;
     return contents
       .get(path, { content: false })
@@ -167,10 +170,12 @@ export class CommentPanel extends Panel implements ICommentPanel {
     if (this._fileWidget !== null) {
       this.model!.changed.disconnect(this._onChange, this);
       const oldWidget = this._fileWidget;
-      oldWidget.hide();
-      if (!oldWidget.context.isDisposed) {
-        await oldWidget.context.save();
-        oldWidget.dispose();
+      if (oldWidget) {
+        oldWidget.hide();
+        if (!oldWidget.context.isDisposed) {
+          await oldWidget.context.save();
+          oldWidget.dispose();
+        }
       }
     }
 
@@ -212,7 +217,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
     changes: CommentFileModel.IChange[]
   ): void {
     const fileWidget = this.fileWidget;
-    if (fileWidget === null) {
+    if (!fileWidget) {
       return;
     }
 
@@ -220,17 +225,17 @@ export class CommentPanel extends Panel implements ICommentPanel {
     let index = 0;
 
     for (const change of changes) {
-      if (change.retain !== null) {
+      if (change.retain) {
         index += change.retain;
-      } else if (change.insert !== null) {
+      } else if (change.insert) {
         change.insert.forEach(comment =>
           fileWidget.insertComment(comment, index++)
         );
-      } else if (change.delete !== null) {
+      } else if (change.delete) {
         widgets
           .slice(index, index + change.delete)
           .forEach(widget => widget.dispose());
-      } else if (change.update !== null) {
+      } else if (change.update) {
         for (let i = 0; i < change.update; i++) {
           widgets[index++].update();
         }
@@ -239,7 +244,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
   }
 
   get ymodel(): YDocument<any> | undefined {
-    if (this._fileWidget === null) {
+    if (!this._fileWidget) {
       return;
     }
     return this._fileWidget.context.model.sharedModel as YDocument<any>;
@@ -247,7 +252,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
 
   get model(): CommentFileModel | undefined {
     const docWidget = this._fileWidget;
-    if (docWidget === null) {
+    if (!docWidget) {
       return;
     }
     return docWidget.model;
@@ -341,24 +346,24 @@ export class CommentPanel extends Panel implements ICommentPanel {
     index: number
   ): CommentWidget<any> | undefined {
     const model = this.model;
-    if (model === null) {
+    if (!model) {
       return;
     }
 
     const commentFactory = this.commentRegistry.getFactory(options.type);
-    if (commentFactory === null) {
+    if (!commentFactory) {
       return;
     }
 
     const comment = commentFactory.createComment({ ...options, text: '' });
 
     const widgetFactory = this.commentWidgetRegistry.getFactory(options.type);
-    if (widgetFactory === null) {
+    if (!widgetFactory) {
       return;
     }
 
     const widget = widgetFactory.createWidget(comment, model, options.source);
-    if (widget === null) {
+    if (!widget) {
       return;
     }
 
@@ -372,7 +377,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
     this._localIdentity.name = newName;
 
     const model = this.model;
-    if (model === null) {
+    if (!model) {
       return;
     }
 

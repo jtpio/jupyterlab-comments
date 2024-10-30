@@ -1,7 +1,7 @@
 import { IComment, IIdentity, IReply } from './commentformat';
 import { CommentFactory } from './factory';
 import { ICommentRegistry, ICommentWidgetRegistry } from './token';
-import { ISharedDocument, YDocument } from '@jupyterlab/shared-models';
+import { ISharedDocument, YFile } from '@jupyter/ydoc';
 import * as Y from 'yjs';
 import { PartialJSONValue } from '@lumino/coreutils';
 import { ISignal, Signal } from '@lumino/signaling';
@@ -55,7 +55,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    * Serialize the model to JSON.
    */
   toJSON(): PartialJSONValue {
-    if (this.widgets === null) {
+    if (!this.widgets) {
       console.warn(
         'No comment widgets found for model. Serializing based on default IComment'
       );
@@ -104,7 +104,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
       let lastInserted = 0;
       for (let i = 0; i < delta.length; i++) {
         const d = delta[i];
-        if (d.insert !== null) {
+        if (d.insert) {
           lastInserted = d.insert.length;
         } else if (d.delete !== null) {
           if (lastInserted === d.delete) {
@@ -138,7 +138,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   createComment(options: ICommentOptions): IComment | undefined {
     const factory = this.commentRegistry.getFactory(options.type);
-    if (factory === null) {
+    if (!factory) {
       return;
     }
 
@@ -157,7 +157,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   insertComment(options: ICommentOptions, index: number): void {
     const comment = this.createComment(options);
-    if (comment === null) {
+    if (!comment) {
       return;
     }
 
@@ -171,7 +171,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   addComment(options: ICommentOptions): void {
     const comment = this.createComment(options);
-    if (comment === null) {
+    if (!comment) {
       return;
     }
 
@@ -186,7 +186,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   insertReply(options: IReplyOptions, parentID: string, index: number): void {
     const loc = this.getComment(parentID);
-    if (loc === null) {
+    if (!loc) {
       return;
     }
 
@@ -202,7 +202,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   addReply(options: IReplyOptions, parentID: string): void {
     const loc = this.getComment(parentID);
-    if (loc === null) {
+    if (!loc) {
       return;
     }
 
@@ -217,7 +217,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   deleteComment(id: string): void {
     const loc = this.getComment(id);
-    if (loc === null) {
+    if (!loc) {
       return;
     }
 
@@ -234,7 +234,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   deleteReply(id: string, parentID?: string): void {
     const loc = this.getReply(id, parentID);
-    if (loc === null) {
+    if (!loc) {
       return;
     }
 
@@ -251,7 +251,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
     id: string
   ): void {
     const loc = this.getComment(id);
-    if (loc === null) {
+    if (!loc) {
       return;
     }
     options.editedTime = getCommentTimeStamp();
@@ -272,7 +272,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
     parentID?: string
   ): void {
     const loc = this.getReply(id, parentID);
-    if (loc === null) {
+    if (!loc) {
       return;
     }
 
@@ -313,9 +313,9 @@ export class CommentFileModel implements DocumentRegistry.IModel {
     let parentIndex: number;
     let parent: IComment;
 
-    if (parentID !== null) {
+    if (parentID) {
       const parentLocation = this.getComment(parentID);
-      if (parentLocation === null) {
+      if (!parentLocation) {
         return;
       }
 
@@ -378,7 +378,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
   /**
    * The underlying model handling RTC between clients.
    */
-  readonly ymodel = new YDocument<any>();
+  readonly ymodel = new YFile();
 
   /**
    * The awareness associated with the document being commented on.
@@ -519,19 +519,14 @@ export class CommentFileModelFactory
   readonly contentType: Contents.ContentType = 'file';
   readonly fileFormat: Contents.FileFormat = 'text';
 
-  createNew(
-    languagePreference?: string,
-    modelDB?: IModelDB,
-    isInitialized?: boolean
-  ): CommentFileModel {
+  createNew(options: DocumentRegistry.IModelOptions) {
     const commentRegistry = this._commentRegistry;
     const commentWidgetRegistry = this._commentWidgetRegistry;
     const commentMenu = this._commentMenu;
     return new CommentFileModel({
       commentRegistry,
       commentWidgetRegistry,
-      commentMenu,
-      isInitialized
+      commentMenu
     });
   }
 

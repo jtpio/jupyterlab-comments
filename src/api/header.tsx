@@ -1,19 +1,25 @@
 import * as React from 'react';
 
+import { ILabShell } from '@jupyterlab/application';
+
 import { ReactWidget, UseSignal } from '@jupyterlab/apputils';
+
+import { IChangedArgs } from '@jupyterlab/coreutils';
+
+import { editIcon, refreshIcon, saveIcon } from '@jupyterlab/ui-components';
+
+import { ISignal, Signal } from '@lumino/signaling';
 
 import { getIdentity, setIdentityName } from './utils';
 
 import { Awareness } from 'y-protocols/awareness';
 
-import { editIcon, refreshIcon, saveIcon } from '@jupyterlab/ui-components';
-
-import { ISignal, Signal } from '@lumino/signaling';
-import { ILabShell } from '@jupyterlab/application';
 import { CommentPanel } from './panel';
-import { IChangedArgs } from '@jupyterlab/coreutils';
+
 import { CommentFileWidget } from './widget';
+
 import { CommentFileModel } from './model';
+
 /**
  * This type comes from @jupyterlab/apputils/vdom.ts but isn't exported.
  */
@@ -59,7 +65,7 @@ function FileTitle(props: FileTitleProps): JSX.Element {
     SetTooltip(widget?.context.path ?? '');
     SetFilename(panel.sourcePath ?? '');
 
-    if (widget === null) {
+    if (!widget) {
       return;
     }
 
@@ -70,7 +76,7 @@ function FileTitle(props: FileTitleProps): JSX.Element {
   React.useEffect(() => {
     panel.modelChanged.connect(modelChangedHandler);
     const fileWidget = panel.fileWidget;
-    if (fileWidget !== null) {
+    if (fileWidget) {
       fileWidget.context.pathChanged.connect(pathChangedHandler);
     }
 
@@ -124,7 +130,7 @@ function UserIdentity(props: IdentityProps): JSX.Element {
     event.preventDefault();
     event.stopPropagation();
 
-    if (awareness !== null) {
+    if (awareness) {
       const newName = target.textContent;
       if (newName === null || newName === '') {
         target.textContent = getIdentity(awareness).name;
@@ -156,7 +162,7 @@ export class PanelHeader extends ReactWidget {
   render(): ReactRenderElement {
     const refresh = () => {
       const fileWidget = this._panel.fileWidget;
-      if (fileWidget === null) {
+      if (!fileWidget) {
         return;
       }
 
@@ -165,7 +171,7 @@ export class PanelHeader extends ReactWidget {
 
     const save = () => {
       const fileWidget = this._panel.fileWidget;
-      if (fileWidget === null) {
+      if (!fileWidget) {
         return;
       }
 

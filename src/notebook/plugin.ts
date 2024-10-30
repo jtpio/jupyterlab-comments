@@ -4,7 +4,7 @@ import {
 } from '@jupyterlab/application';
 import { IThemeManager } from '@jupyterlab/apputils';
 import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
-import { YNotebook } from '@jupyterlab/shared-models';
+import { YNotebook } from '@jupyter/ydoc';
 import { Awareness } from 'y-protocols/awareness';
 import { Cell } from '@jupyterlab/cells';
 import { getIdentity, ICommentPanel } from '../api';
@@ -59,7 +59,7 @@ export const notebookCommentsPlugin: JupyterFrontEndPlugin<void> = {
       label: 'Add Comment',
       execute: () => {
         const cell = nbTracker.activeCell;
-        if (!cell) {
+        if (!cell || !cell.editor) {
           return;
         }
 
@@ -126,14 +126,24 @@ export const notebookCommentsPlugin: JupyterFrontEndPlugin<void> = {
     // Opens add comment button on the current cell when the mouse is released
     // after a text selection
     const onMouseup = (_: MouseEvent): void => {
-      if (!currentCell || currentCell.isDisposed) {
+      if (!currentCell || currentCell.isDisposed || !currentCell.editor) {
         return;
       }
 
       const editor = currentCell.editor;
-      const { top } = editor.getCoordinateForPosition(currentSelection.start);
-      const { bottom } = editor.getCoordinateForPosition(currentSelection.end);
-      const { right } = currentCell.editorWidget.node.getBoundingClientRect();
+      const startCoordinates = editor.getCoordinateForPosition(
+        currentSelection.start
+      );
+      const endCoordinates = editor.getCoordinateForPosition(
+        currentSelection.end
+      );
+      if (!startCoordinates || !endCoordinates) {
+        return;
+      }
+      const { top } = startCoordinates;
+      const { bottom } = endCoordinates;
+      const right =
+        currentCell.editorWidget?.node.getBoundingClientRect().right ?? 0;
 
       const node = nbTracker.currentWidget!.content.node;
 
@@ -147,7 +157,7 @@ export const notebookCommentsPlugin: JupyterFrontEndPlugin<void> = {
 
     // Adds a single-run mouseup listener whenever a text selection is made in a cell
     const awarenessHandler = (): void => {
-      if (!currentCell) {
+      if (!currentCell || !currentCell.editor) {
         return;
       }
 

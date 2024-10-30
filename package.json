@@ -55,6 +55,7 @@
         "watch:src": "tsc -w --sourceMap"
     },
     "dependencies": {
+        "@jupyter/ydoc": "^3.0.0",
         "@jupyterlab/application": "^4.2.5",
         "@jupyterlab/cells": "^4.2.5",
         "@jupyterlab/codeeditor": "^4.2.5",

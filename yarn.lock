@@ -1133,6 +1133,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jupyter/ydoc@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@jupyter/ydoc@npm:3.0.0"
+  dependencies:
+    "@jupyterlab/nbformat": ^3.0.0 || ^4.0.0-alpha.21 || ^4.0.0
+    "@lumino/coreutils": ^1.11.0 || ^2.0.0
+    "@lumino/disposable": ^1.10.0 || ^2.0.0
+    "@lumino/signaling": ^1.10.0 || ^2.0.0
+    y-protocols: ^1.0.5
+    yjs: ^13.5.40
+  checksum: e9419a461f33d2685db346b19806865fe37f61b2ca33eb39c4ea905d765794a928442adf1bbffda67b665bdeba3be9a082189a57eaab5367aeaf6b57caeda822
+  languageName: node
+  linkType: hard
+
 "@jupyterlab/application@npm:^4.2.5":
   version: 4.2.5
   resolution: "@jupyterlab/application@npm:4.2.5"
@@ -6585,6 +6599,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "jupyterlab-comments@workspace:."
   dependencies:
+    "@jupyter/ydoc": ^3.0.0
     "@jupyterlab/application": ^4.2.5
     "@jupyterlab/builder": ^4.0.0
     "@jupyterlab/cells": ^4.2.5

@@ -1,6 +1,5 @@
 import { Awareness } from 'y-protocols/awareness';
 import { IIdentity } from './commentformat';
-import { getAnonymousUserName } from '@jupyterlab/docprovider';
 import { UserIcons } from './icons';
 import { CodeEditor } from '@jupyterlab/codeeditor';
 
@@ -12,10 +11,11 @@ export const emptyIdentity: IIdentity = {
 };
 
 let count = -1;
+// TODO: get the same identity as in jupyter-collaboration
 export function randomIdentity(): IIdentity {
   return {
     id: count--,
-    name: getAnonymousUserName(),
+    name: 'Anonymous',
     color: randomColor(),
     icon: Math.floor(Math.random() * UserIcons.length)
   };
