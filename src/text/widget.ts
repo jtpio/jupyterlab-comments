@@ -38,7 +38,7 @@ export class TextSelectionCommentWidget extends CommentWidget<
     const json = super.toJSON();
 
     const mark = this._mark;
-    if (mark == null) {
+    if (mark === null) {
       console.warn(
         'No mark found--serializing based on initial text selection position',
         this
@@ -49,7 +49,7 @@ export class TextSelectionCommentWidget extends CommentWidget<
     }
 
     const range = mark.find();
-    if (range == null) {
+    if (range === null) {
       console.warn(
         'Mark no longer exists in code editor--serializing based on initial text selection position',
         this
@@ -68,12 +68,12 @@ export class TextSelectionCommentWidget extends CommentWidget<
   }
 
   getPreview(): string | undefined {
-    if (this.isMock || this._mark == null) {
+    if (this.isMock || this._mark === null) {
       return Private.getMockCommentPreviewText(this._doc, this.comment!);
     }
 
     const range = this._mark.find();
-    if (range == null) {
+    if (range === null) {
       return '';
     }
 

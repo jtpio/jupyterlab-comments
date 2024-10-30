@@ -1,4 +1,4 @@
 import './base.css';
 import './panelHeader.css';
-import './comment.css'
-import './reply.css'
+import './comment.css';
+import './reply.css';

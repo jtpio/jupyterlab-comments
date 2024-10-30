@@ -59,7 +59,7 @@ function FileTitle(props: FileTitleProps): JSX.Element {
     SetTooltip(widget?.context.path ?? '');
     SetFilename(panel.sourcePath ?? '');
 
-    if (widget == null) {
+    if (widget === null) {
       return;
     }
 
@@ -70,7 +70,7 @@ function FileTitle(props: FileTitleProps): JSX.Element {
   React.useEffect(() => {
     panel.modelChanged.connect(modelChangedHandler);
     const fileWidget = panel.fileWidget;
-    if (fileWidget != null) {
+    if (fileWidget !== null) {
       fileWidget.context.pathChanged.connect(pathChangedHandler);
     }
 
@@ -96,7 +96,7 @@ function UserIdentity(props: IdentityProps): JSX.Element {
   const [editable, SetEditable] = React.useState(false);
 
   const IdentityDiv = () => {
-    if (awareness != undefined) {
+    if (awareness !== undefined) {
       return (
         <div
           contentEditable={editable}
@@ -124,9 +124,9 @@ function UserIdentity(props: IdentityProps): JSX.Element {
     event.preventDefault();
     event.stopPropagation();
 
-    if (awareness != null) {
+    if (awareness !== null) {
       const newName = target.textContent;
-      if (newName == null || newName === '') {
+      if (newName === null || newName === '') {
         target.textContent = getIdentity(awareness).name;
       } else {
         setIdentityName(awareness, newName);
@@ -156,7 +156,7 @@ export class PanelHeader extends ReactWidget {
   render(): ReactRenderElement {
     const refresh = () => {
       const fileWidget = this._panel.fileWidget;
-      if (fileWidget == null) {
+      if (fileWidget === null) {
         return;
       }
 
@@ -165,7 +165,7 @@ export class PanelHeader extends ReactWidget {
 
     const save = () => {
       const fileWidget = this._panel.fileWidget;
-      if (fileWidget == null) {
+      if (fileWidget === null) {
         return;
       }
 

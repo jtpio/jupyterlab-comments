@@ -98,7 +98,7 @@ function ReactMarkdownRenderer(props: ReactMarkdownRendererProps): JSX.Element {
     sanitizer,
     shouldTypeset
   } = props;
-  let node: HTMLElement = document.createElement('div');
+  const node: HTMLElement = document.createElement('div');
   const [renderElement, SetRenderElement] = React.useState(<div></div>);
   React.useEffect(() => {
     const markdownRender = async () => {
@@ -170,16 +170,17 @@ function JCComment(props: CommentProps): JSX.Element {
   // TODO: Replace `UserIcons[0]` with an error icon (maybe just black circle?)
   const icon = UserIcons[comment.identity.icon] ?? UserIcons[0];
 
-  const getTooltip = ():string => {
-    const d = new Date(comment.time)
+  const getTooltip = (): string => {
+    const d = new Date(comment.time);
     if (comment.editedTime) {
-      const ed = new Date(comment.editedTime)
-      return 'Created: '+d.toLocaleString() + '\nModified: '+ed.toLocaleString()
+      const ed = new Date(comment.editedTime);
+      return (
+        'Created: ' + d.toLocaleString() + '\nModified: ' + ed.toLocaleString()
+      );
+    } else {
+      return 'Created: ' + d.toLocaleString();
     }
-    else {
-      return 'Created: '+d.toLocaleString()
-    }
-  }
+  };
 
   return (
     <Jdiv
@@ -205,10 +206,16 @@ function JCComment(props: CommentProps): JSX.Element {
 
       <br />
 
-      {!comment.editedTime && <span className="jc-Time">{renderCommentTimeString(comment.time)}</span>}
-      {comment.editedTime && <span className="jc-Time"><i>{renderCommentTimeString(comment.editedTime)}</i></span>}
+      {!comment.editedTime && (
+        <span className="jc-Time">{renderCommentTimeString(comment.time)}</span>
+      )}
+      {comment.editedTime && (
+        <span className="jc-Time">
+          <i>{renderCommentTimeString(comment.editedTime)}</i>
+        </span>
+      )}
 
-      {preview != null && (
+      {preview !== null && (
         <div className="jc-Preview">
           <div className="jc-PreviewBar" />
           <span className="jc-PreviewText">{preview}</span>
@@ -295,7 +302,7 @@ function JCCommentWithReplies(props: CommentWithRepliesProps): JSX.Element {
   const { comment, editID, collapsed, renderer, isAttached, preview } = props;
   const className = props.className ?? '';
 
-  let RepliesComponent = (): JSX.Element => {
+  const RepliesComponent = (): JSX.Element => {
     if (!collapsed || comment.replies.length < 4) {
       return (
         <React.Fragment>
@@ -378,7 +385,7 @@ function JCReplyArea(props: ReplyAreaProps): JSX.Element {
   const className = props.className || '';
 
   return (
-    <div hidden={hidden} >
+    <div hidden={hidden}>
       <Jdiv
         className={'jc-ReplyInputArea jc-mod-focus-border' + className}
         contentEditable={true}
@@ -398,7 +405,7 @@ function JCCommentWrapper(props: CommentWrapperProps): JSX.Element {
   const eventHandler = commentWidget.handleEvent.bind(commentWidget);
 
   const comment = commentWidget.comment;
-  if (comment == null) {
+  if (comment === null) {
     return <div className="jc-Error" />;
   }
 
@@ -537,7 +544,7 @@ export class CommentWidget<T, C extends IComment = IComment>
    */
   private _collapseOtherComments(): void {
     const parent = this.parent;
-    if (parent == null) {
+    if (parent === null) {
       return;
     }
 
@@ -563,7 +570,7 @@ export class CommentWidget<T, C extends IComment = IComment>
    */
   private _scrollToTarget(): void {
     const element = this.element;
-    if (element != null) {
+    if (element !== null) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   }
@@ -578,16 +585,15 @@ export class CommentWidget<T, C extends IComment = IComment>
     const target = event.target as HTMLElement;
     const clickID = Private.getClickID(target);
 
-    if (clickID != null) {
+    if (clickID !== null) {
       this.activeID = clickID;
     }
 
-    if (oldActive == null || !this.node.contains(oldActive)) {
+    if (oldActive === null || !this.node.contains(oldActive)) {
       this.node.focus();
     }
 
     this._collapseOtherComments();
-
   }
 
   /**
@@ -600,7 +606,7 @@ export class CommentWidget<T, C extends IComment = IComment>
     event.stopPropagation();
     const element = target.parentNode!.previousSibling as HTMLDivElement;
 
-    if (element == null) {
+    if (element === null) {
       return;
     }
 
@@ -652,7 +658,7 @@ export class CommentWidget<T, C extends IComment = IComment>
     }
 
     const element = target.parentNode!.previousSibling as HTMLDivElement;
-    if (element == null) {
+    if (element === null) {
       return;
     }
 
@@ -669,7 +675,7 @@ export class CommentWidget<T, C extends IComment = IComment>
   protected _handleDropdownClick(event: React.MouseEvent): void {
     this._setClickFocus(event);
     const menu = this.menu;
-    if (menu != null && !this.isMock) {
+    if (menu !== null && !this.isMock) {
       menu.open(event.pageX, event.pageY);
     }
   }
@@ -685,7 +691,7 @@ export class CommentWidget<T, C extends IComment = IComment>
     this._setClickFocus(event);
     this._scrollToTarget();
 
-    if (this.comment.text !== ''){
+    if (this.comment.text !== '') {
       this.revealReply();
     }
   }
@@ -698,13 +704,13 @@ export class CommentWidget<T, C extends IComment = IComment>
 
     const target = event.target as HTMLElement;
     const clickID = Private.getClickID(target);
-    if (clickID == null) {
+    if (clickID === null) {
       return;
     }
 
     this.editID = '';
 
-    if (this.comment.text !== ''){
+    if (this.comment.text !== '') {
       this.revealReply();
     }
     this._scrollToTarget();
@@ -726,7 +732,7 @@ export class CommentWidget<T, C extends IComment = IComment>
     this._setClickFocus(event);
     this._scrollToTarget();
 
-    if (this.comment.text !== ''){
+    if (this.comment.text !== '') {
       this.revealReply();
     }
   }
@@ -848,7 +854,7 @@ export class CommentWidget<T, C extends IComment = IComment>
 
     let index = 0;
     let node = this.node as ChildNode;
-    while (node.previousSibling != null) {
+    while (node.previousSibling !== null) {
       index++;
       node = node.previousSibling;
     }
@@ -904,7 +910,7 @@ export class CommentWidget<T, C extends IComment = IComment>
 
     this.editID = this.activeID;
     const comment = document.getElementById(this.activeID);
-    if (comment == null) {
+    if (comment === null) {
       return;
     }
 
@@ -1139,12 +1145,12 @@ export namespace CommentWidget {
   export function getEventArea(event: React.SyntheticEvent): EventArea {
     const target = event.target as HTMLElement;
     const areaElement = target.closest('[jcEventArea]');
-    if (areaElement == null) {
+    if (areaElement === null) {
       return 'none';
     }
 
     const area = areaElement.getAttribute('jcEventArea');
-    if (area == null) {
+    if (area === null) {
       return 'other';
     }
 
@@ -1179,13 +1185,13 @@ export class CommentFileWidget extends Panel {
 
   insertComment(comment: IComment, index: number): void {
     const factory = this.model.commentWidgetRegistry.getFactory(comment.type);
-    if (factory == null) {
+    if (factory === null) {
       return;
     }
 
     const widget = factory.createWidget(comment, this.model);
 
-    if (widget != null) {
+    if (widget !== null) {
       this.insertWidget(index, widget);
       this._commentAdded.emit(widget);
     }
@@ -1250,7 +1256,7 @@ namespace Private {
    */
   export function getClickID(target: HTMLElement): string | undefined {
     const comment = target.closest('.jc-Comment');
-    if (comment == null) {
+    if (comment === null) {
       return undefined;
     }
     return comment.id;

@@ -21,7 +21,7 @@ export class CellCommentWidgetFactory<
     target?: Cell
   ): CellCommentWidget | undefined {
     const cell = target ?? this._cellFromID(comment.target.cellID);
-    if (cell == null) {
+    if (cell === null) {
       console.error('Cell not found for comment', comment);
       return;
     }
@@ -35,7 +35,7 @@ export class CellCommentWidgetFactory<
 
   private _cellFromID(id: string): Cell | undefined {
     const notebook = this._tracker.currentWidget;
-    if (notebook == null) {
+    if (notebook === null) {
       return;
     }
 
@@ -74,13 +74,13 @@ export class CellSelectionCommentWidgetFactory extends CommentWidgetFactory<
     target?: Cell
   ): CellSelectionCommentWidget | undefined {
     const cell = target ?? this._cellFromID(comment.target.cellID);
-    if (cell == null) {
+    if (cell === null) {
       console.error('Cell not found for comment', comment);
       return;
     }
 
     const mark = markCommentSelection(docFromCell(cell), comment, this._theme);
-    let theme = this._theme;
+    const theme = this._theme;
     return new CellSelectionCommentWidget({
       model,
       comment,
@@ -92,7 +92,7 @@ export class CellSelectionCommentWidgetFactory extends CommentWidgetFactory<
 
   private _cellFromID(id: string): Cell | undefined {
     const notebook = this._tracker.currentWidget;
-    if (notebook == null) {
+    if (notebook === null) {
       return;
     }
 

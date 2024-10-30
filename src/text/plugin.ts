@@ -53,15 +53,15 @@ export const textCommentingPlugin: JupyterFrontEndPlugin<void> = {
     app.commands.addCommand(CommandIDs.addComment, {
       label: 'Add Comment',
       execute: () => {
-        let editorWidget = (shell.currentWidget as DocumentWidget)
+        const editorWidget = (shell.currentWidget as DocumentWidget)
           .content as CodeEditorWrapper;
 
-        if (editorWidget == null) {
+        if (editorWidget === null) {
           return;
         }
 
         const model = panel.model;
-        if (model == null) {
+        if (model === null) {
           return;
         }
 
@@ -78,8 +78,8 @@ export const textCommentingPlugin: JupyterFrontEndPlugin<void> = {
 
         for (let i = 0; i < comments.length; i++) {
           const comment = comments.get(i) as ITextSelectionComment;
-          let sel = comment.target;
-          let commentStart = sel.start;
+          const sel = comment.target;
+          const commentStart = sel.start;
           if (
             start.line < commentStart.line ||
             (start.line === commentStart.line &&
@@ -124,16 +124,16 @@ export const textCommentingPlugin: JupyterFrontEndPlugin<void> = {
 
     //commenting stuff for non-notebook/json files
     shell.currentChanged.connect(async (_, changed) => {
-      if (currAwareness != null && handler != null && onMouseup != null) {
+      if (currAwareness !== null && handler !== null && onMouseup !== null) {
         document.removeEventListener('mouseup', onMouseup);
         currAwareness.off('change', handler);
         button.close();
       }
-      if (changed.newValue == null /*|| panel.model == null*/) {
+      if (changed.newValue === null /*|| panel.model === null*/) {
         return;
       }
       const editorWidget = Private.getEditor(changed.newValue);
-      if (editorWidget == null) {
+      if (editorWidget === null) {
         return;
       }
 
@@ -164,7 +164,7 @@ export const textCommentingPlugin: JupyterFrontEndPlugin<void> = {
         }
       };
 
-      if (currAwareness != null) {
+      if (currAwareness !== null) {
         currAwareness.off('change', handler);
       }
 

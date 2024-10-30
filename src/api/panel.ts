@@ -67,15 +67,16 @@ export class CommentPanel extends Panel implements ICommentPanel {
   ): Promise<void> {
     const sourcePath = change?.oldValue?.path;
     const commentsPath =
-      sourcePath != null ? this.getCommentPathFor(sourcePath) : undefined;
+      sourcePath !== null ? this.getCommentPathFor(sourcePath) : undefined;
 
     switch (change.type) {
-      case 'delete':
+      case 'delete': {
         if (await this.pathExists(commentsPath!)) {
           return contents.delete(commentsPath!);
         }
         break;
-      case 'rename':
+      }
+      case 'rename': {
         const newPath = change.newValue!.path!;
         if (!(await this.pathExists(commentsPath!))) {
           return;
@@ -85,11 +86,13 @@ export class CommentPanel extends Panel implements ICommentPanel {
           this._sourcePath = newPath;
         }
         return void contents.rename(commentsPath!, newCommentsPath);
-      case 'save':
+      }
+      case 'save': {
         if (this.sourcePath === change.newValue!.path!) {
           return this._fileWidget!.context.save();
         }
         break;
+      }
     }
   }
 
@@ -102,12 +105,12 @@ export class CommentPanel extends Panel implements ICommentPanel {
   }
 
   onUpdateRequest(msg: Message): void {
-    if (this._fileWidget == null) {
+    if (this._fileWidget === null) {
       return;
     }
 
     const awareness = this.awareness;
-    if (awareness != null && awareness !== this.panelHeader.awareness) {
+    if (awareness !== null && awareness !== this.panelHeader.awareness) {
       this.panelHeader.awareness = awareness;
     }
   }
@@ -129,9 +132,9 @@ export class CommentPanel extends Panel implements ICommentPanel {
     );
 
     const context: Context =
-      // @ts-ignore
+      // @ts-expect-error TODO: check if there is a better way
       docManager._findContext(path, 'comment-file') ??
-      // @ts-ignore
+      // @ts-expect-error: check if there is a better way
       docManager._createContext(path, factory, preference);
 
     await docManager.services.ready;
@@ -161,7 +164,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
 
     this._loadingModel = true;
 
-    if (this._fileWidget != null) {
+    if (this._fileWidget !== null) {
       this.model!.changed.disconnect(this._onChange, this);
       const oldWidget = this._fileWidget;
       oldWidget.hide();
@@ -209,25 +212,25 @@ export class CommentPanel extends Panel implements ICommentPanel {
     changes: CommentFileModel.IChange[]
   ): void {
     const fileWidget = this.fileWidget;
-    if (fileWidget == null) {
+    if (fileWidget === null) {
       return;
     }
 
     const widgets = fileWidget.widgets;
     let index = 0;
 
-    for (let change of changes) {
-      if (change.retain != null) {
+    for (const change of changes) {
+      if (change.retain !== null) {
         index += change.retain;
-      } else if (change.insert != null) {
+      } else if (change.insert !== null) {
         change.insert.forEach(comment =>
           fileWidget.insertComment(comment, index++)
         );
-      } else if (change.delete != null) {
+      } else if (change.delete !== null) {
         widgets
           .slice(index, index + change.delete)
           .forEach(widget => widget.dispose());
-      } else if (change.update != null) {
+      } else if (change.update !== null) {
         for (let i = 0; i < change.update; i++) {
           widgets[index++].update();
         }
@@ -236,7 +239,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
   }
 
   get ymodel(): YDocument<any> | undefined {
-    if (this._fileWidget == null) {
+    if (this._fileWidget === null) {
       return;
     }
     return this._fileWidget.context.model.sharedModel as YDocument<any>;
@@ -244,7 +247,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
 
   get model(): CommentFileModel | undefined {
     const docWidget = this._fileWidget;
-    if (docWidget == null) {
+    if (docWidget === null) {
       return;
     }
     return docWidget.model;
@@ -263,7 +266,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
    */
   scrollToComment(id: string): void {
     const node = document.getElementById(id);
-    if (node == null) {
+    if (node === null) {
       return;
     }
 
@@ -338,24 +341,24 @@ export class CommentPanel extends Panel implements ICommentPanel {
     index: number
   ): CommentWidget<any> | undefined {
     const model = this.model;
-    if (model == null) {
+    if (model === null) {
       return;
     }
 
     const commentFactory = this.commentRegistry.getFactory(options.type);
-    if (commentFactory == null) {
+    if (commentFactory === null) {
       return;
     }
 
     const comment = commentFactory.createComment({ ...options, text: '' });
 
     const widgetFactory = this.commentWidgetRegistry.getFactory(options.type);
-    if (widgetFactory == null) {
+    if (widgetFactory === null) {
       return;
     }
 
     const widget = widgetFactory.createWidget(comment, model, options.source);
-    if (widget == null) {
+    if (widget === null) {
       return;
     }
 
@@ -369,7 +372,7 @@ export class CommentPanel extends Panel implements ICommentPanel {
     this._localIdentity.name = newName;
 
     const model = this.model;
-    if (model == null) {
+    if (model === null) {
       return;
     }
 

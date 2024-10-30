@@ -144,7 +144,7 @@ export const jupyterCommentingPlugin: JupyterFrontEndPlugin<ICommentPanel> = {
 
     // Load model for current document when it changes
     shell.currentChanged.connect((_, args) => {
-      if (args.newValue != null && args.newValue instanceof DocumentWidget) {
+      if (args.newValue !== null && args.newValue instanceof DocumentWidget) {
         const docWidget = args.newValue as DocumentWidget;
         docWidget.context.ready
           .then(() => {
@@ -158,7 +158,7 @@ export const jupyterCommentingPlugin: JupyterFrontEndPlugin<ICommentPanel> = {
 
     // Update comment widget tracker when model changes
     panel.modelChanged.connect((_, fileWidget) => {
-      if (fileWidget != null) {
+      if (fileWidget !== null) {
         fileWidget.widgets.forEach(
           widget => void commentTracker.add(widget as CommentWidget<any>)
         );
@@ -174,7 +174,7 @@ export const jupyterCommentingPlugin: JupyterFrontEndPlugin<ICommentPanel> = {
 
       // If you didn't make the comment, ignore it
       // Comparing ids would be better but they're not synchronized across Docs/awarenesses
-      if (identity == null || identity.name !== panel.localIdentity.name) {
+      if (identity === null || identity.name !== panel.localIdentity.name) {
         return;
       }
 
@@ -208,7 +208,7 @@ function addCommands(
     label: 'Save Comments',
     execute: () => {
       const fileWidget = panel.fileWidget;
-      if (fileWidget == null) {
+      if (fileWidget === null) {
         return;
       }
 
@@ -220,7 +220,7 @@ function addCommands(
     label: 'Delete Comment',
     execute: () => {
       const currentComment = commentTracker.currentWidget;
-      if (currentComment != null) {
+      if (currentComment !== null) {
         currentComment.deleteActive();
       }
     }
@@ -230,7 +230,7 @@ function addCommands(
     label: 'Edit Comment',
     execute: () => {
       const currentComment = commentTracker.currentWidget;
-      if (currentComment != null) {
+      if (currentComment !== null) {
         currentComment.openEditActive();
       }
     }
@@ -240,7 +240,7 @@ function addCommands(
     label: 'Reply to Comment',
     execute: () => {
       const currentComment = commentTracker.currentWidget;
-      if (currentComment != null) {
+      if (currentComment !== null) {
         currentComment.revealReply();
       }
     }

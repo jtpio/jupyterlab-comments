@@ -52,7 +52,7 @@ export class NewCommentButton extends Widget {
     let ax = 0;
     let ay = 0;
 
-    if (anchor != null) {
+    if (anchor !== null) {
       const { left, top } = anchor.getBoundingClientRect();
       ax = anchor.scrollLeft - left;
       ay = anchor.scrollTop - top;

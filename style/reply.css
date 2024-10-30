@@ -1,46 +1,38 @@
 :root {
   --jc-dropdown-size: 25px;
-
   --jc-comment-profile-pic-size: 32px;
-
   --jc-reply-pic-size: 24px;
-
   --jc-panel-background-color: var(--jp-layout-color0);
-
   --jc-comment-color: var(--jp-ui-font-color0);
   --jc-comment-background-color: var(--jp-layout-color1);
   --jc-comment-border-color: #c5c5c5;
   --jc-comment-border: 1px solid var(--jc-comment-border-color);
-
   --jc-timestamp-color: var(--jp-ui-font-color2);
   --jc-timestamp-font-size: smaller;
   --jc-timestamp-font-weight: regular;
-
   --jc-nametag-font-size: var(--jp-ui-font-size1);
   --jc-nametag-font-weight: 450;
-
   --var-jc-linesep: 2px;
 }
 
 .jc-ReplySpacer {
   margin-top: 8px;
 }
-.jc-ReplyInputArea:empty:before {
+
+.jc-ReplyInputArea:empty::before {
   content: attr(data-placeholder);
   color: var(--jp-ui-font-color3);
 }
+
 .jc-ReplyInputArea {
   border-top: var(--jc-comment-border);
   padding: 10px;
   word-break: break-word;
 }
+
 .jc-Reply {
   white-space: pre-wrap;
   border-top: var(--jc-comment-border);
-}
-
-.jc-Replies-breaker:focus {
-  outline: 1px solid var(--jp-ui-font-color3);
 }
 
 .jc-Replies-breaker {
@@ -51,6 +43,9 @@
   cursor: pointer;
 }
 
+.jc-Replies-breaker:focus {
+  outline: 1px solid var(--jp-ui-font-color3);
+}
 
 .jc-Replies-breaker-right {
   overflow: hidden;
@@ -77,6 +72,7 @@
   width: 100%;
   z-index: 1;
 }
+
 .jc-Replies-breaker-number {
   /* 32px circle */
   border-radius: 50%;
@@ -91,7 +87,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 3;
 
   /* Pixel-pushing circle */
@@ -119,11 +114,11 @@
   top: 0;
   left: 0;
   height: var(--jc-reply-pic-size);
-  height: var(--jc-reply-pic-size);
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .jc-ReplyPicContainer {
   float: left;
   width: var(--jc-reply-pic-size);

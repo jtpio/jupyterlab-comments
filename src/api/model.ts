@@ -55,7 +55,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    * Serialize the model to JSON.
    */
   toJSON(): PartialJSONValue {
-    if (this.widgets == null) {
+    if (this.widgets === null) {
       console.warn(
         'No comment widgets found for model. Serializing based on default IComment'
       );
@@ -93,7 +93,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
   }
 
   private _commentsObserver = (events: Y.YEvent[]): void => {
-    for (let event of events) {
+    for (const event of events) {
       const delta = event.delta as CommentFileModel.IChange[];
 
       // Converts a deletion followed by an insertion into an update
@@ -103,10 +103,10 @@ export class CommentFileModel implements DocumentRegistry.IModel {
       // communicate when a comment has been changed over yjs.
       let lastInserted = 0;
       for (let i = 0; i < delta.length; i++) {
-        let d = delta[i];
-        if (d.insert != null) {
+        const d = delta[i];
+        if (d.insert !== null) {
           lastInserted = d.insert.length;
-        } else if (d.delete != null) {
+        } else if (d.delete !== null) {
           if (lastInserted === d.delete) {
             delta.splice(i - 1, 2, { update: lastInserted });
           }
@@ -138,7 +138,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   createComment(options: ICommentOptions): IComment | undefined {
     const factory = this.commentRegistry.getFactory(options.type);
-    if (factory == null) {
+    if (factory === null) {
       return;
     }
 
@@ -157,7 +157,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   insertComment(options: ICommentOptions, index: number): void {
     const comment = this.createComment(options);
-    if (comment == null) {
+    if (comment === null) {
       return;
     }
 
@@ -171,7 +171,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   addComment(options: ICommentOptions): void {
     const comment = this.createComment(options);
-    if (comment == null) {
+    if (comment === null) {
       return;
     }
 
@@ -186,7 +186,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   insertReply(options: IReplyOptions, parentID: string, index: number): void {
     const loc = this.getComment(parentID);
-    if (loc == null) {
+    if (loc === null) {
       return;
     }
 
@@ -202,7 +202,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   addReply(options: IReplyOptions, parentID: string): void {
     const loc = this.getComment(parentID);
-    if (loc == null) {
+    if (loc === null) {
       return;
     }
 
@@ -217,7 +217,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   deleteComment(id: string): void {
     const loc = this.getComment(id);
-    if (loc == null) {
+    if (loc === null) {
       return;
     }
 
@@ -234,7 +234,7 @@ export class CommentFileModel implements DocumentRegistry.IModel {
    */
   deleteReply(id: string, parentID?: string): void {
     const loc = this.getReply(id, parentID);
-    if (loc == null) {
+    if (loc === null) {
       return;
     }
 
@@ -251,10 +251,10 @@ export class CommentFileModel implements DocumentRegistry.IModel {
     id: string
   ): void {
     const loc = this.getComment(id);
-    if (loc == null) {
+    if (loc === null) {
       return;
     }
-    options.editedTime = getCommentTimeStamp()
+    options.editedTime = getCommentTimeStamp();
 
     const newComment = { ...loc.comment, ...options };
     this._updateComment(newComment, loc.index);
@@ -272,11 +272,11 @@ export class CommentFileModel implements DocumentRegistry.IModel {
     parentID?: string
   ): void {
     const loc = this.getReply(id, parentID);
-    if (loc == null) {
+    if (loc === null) {
       return;
     }
 
-    options.editedTime = getCommentTimeStamp()
+    options.editedTime = getCommentTimeStamp();
     Object.assign(loc.reply, loc.reply, options);
     const newComment = { ...loc.parent };
     this._updateComment(newComment, loc.parentIndex);
@@ -313,9 +313,9 @@ export class CommentFileModel implements DocumentRegistry.IModel {
     let parentIndex: number;
     let parent: IComment;
 
-    if (parentID != null) {
+    if (parentID !== null) {
       const parentLocation = this.getComment(parentID);
-      if (parentLocation == null) {
+      if (parentLocation === null) {
         return;
       }
 

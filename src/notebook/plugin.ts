@@ -59,12 +59,12 @@ export const notebookCommentsPlugin: JupyterFrontEndPlugin<void> = {
       label: 'Add Comment',
       execute: () => {
         const cell = nbTracker.activeCell;
-        if (cell == null) {
+        if (!cell) {
           return;
         }
 
         const model = panel.model;
-        if (model == null) {
+        if (!model) {
           return;
         }
 
@@ -105,12 +105,12 @@ export const notebookCommentsPlugin: JupyterFrontEndPlugin<void> = {
       panel.button.close();
 
       // panel.model can be null when the notebook is first loaded
-      if (cell == null || panel.model == null) {
+      if (!cell || !panel.model) {
         return;
       }
 
       // Scroll to the first comment associated with the currently selected cell.
-      for (let comment of panel.model.comments) {
+      for (const comment of panel.model.comments) {
         if (comment.type === 'cell-selection' || comment.type === 'cell') {
           const cellComment = comment as ICellComment;
           if (cellComment.target.cellID === cell.model.id) {
@@ -126,7 +126,7 @@ export const notebookCommentsPlugin: JupyterFrontEndPlugin<void> = {
     // Opens add comment button on the current cell when the mouse is released
     // after a text selection
     const onMouseup = (_: MouseEvent): void => {
-      if (currentCell == null || currentCell.isDisposed) {
+      if (!currentCell || currentCell.isDisposed) {
         return;
       }
 
@@ -147,7 +147,7 @@ export const notebookCommentsPlugin: JupyterFrontEndPlugin<void> = {
 
     // Adds a single-run mouseup listener whenever a text selection is made in a cell
     const awarenessHandler = (): void => {
-      if (currentCell == null) {
+      if (!currentCell) {
         return;
       }
 
@@ -163,13 +163,13 @@ export const notebookCommentsPlugin: JupyterFrontEndPlugin<void> = {
 
     let lastAwareness: Awareness | null = null;
     nbTracker.currentChanged.connect((_, notebook: NotebookPanel | null) => {
-      if (notebook == null) {
+      if (!notebook) {
         lastAwareness = null;
         return;
       }
 
       // Clean up old awareness handler
-      if (lastAwareness != null) {
+      if (lastAwareness !== null) {
         lastAwareness.off('change', awarenessHandler);
       }
 

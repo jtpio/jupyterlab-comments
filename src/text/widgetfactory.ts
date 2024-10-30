@@ -25,7 +25,7 @@ export class TextSelectionCommentWidgetFactory extends CommentWidgetFactory<
     target?: CodeEditorWrapper
   ): TextSelectionCommentWidget | undefined {
     const wrapper = target ?? this._tracker.currentWidget;
-    if (wrapper == null) {
+    if (wrapper === null) {
       console.error('No CodeEditorWrapper found for comment', comment);
       return;
     }
@@ -35,7 +35,7 @@ export class TextSelectionCommentWidgetFactory extends CommentWidgetFactory<
       comment,
       this._theme
     );
-    let theme = this._theme;
+    const theme = this._theme;
     return new TextSelectionCommentWidget({
       comment,
       model,
