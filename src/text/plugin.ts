@@ -11,7 +11,7 @@ import { TextSelectionCommentWidgetFactory } from './widgetfactory';
 import { DocumentWidget } from '@jupyterlab/docregistry';
 import { ITextSelectionComment } from './commentformat';
 import { Awareness } from 'y-protocols/awareness';
-import { YFile } from '@jupyterlab/shared-models';
+import { YFile } from '@jupyter/ydoc';
 import { Widget } from '@lumino/widgets';
 import { IThemeManager } from '@jupyterlab/apputils';
 
@@ -61,7 +61,7 @@ export const textCommentingPlugin: JupyterFrontEndPlugin<void> = {
         }
 
         const model = panel.model;
-        if (model === null) {
+        if (!model) {
           return;
         }
 
@@ -133,7 +133,7 @@ export const textCommentingPlugin: JupyterFrontEndPlugin<void> = {
         return;
       }
       const editorWidget = Private.getEditor(changed.newValue);
-      if (editorWidget === null) {
+      if (!editorWidget) {
         return;
       }
 
@@ -148,6 +148,9 @@ export const textCommentingPlugin: JupyterFrontEndPlugin<void> = {
         const { start, end } = editorWidget.editor.getSelection();
         const coord1 = editorWidget.editor.getCoordinateForPosition(start);
         const coord2 = editorWidget.editor.getCoordinateForPosition(end);
+        if (!coord1 || !coord2) {
+          return;
+        }
         const node = editorWidget.node.getElementsByClassName(
           'CodeMirror-scroll'
         )[0] as HTMLElement;
